@@ -1,0 +1,7 @@
+services:
+  pixelbattle-backend:
+    build:
+      context: ./
+      tags:
+        - ghcr.io/thefluffnetwork/pixelbattle-backend:${GIT_COMMIT_HASH}
+        - ghcr.io/thefluffnetwork/pixelbattle-backend:latest

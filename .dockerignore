@@ -1,0 +1,7 @@
+/node_modules
+/tests
+/.vscode
+/.idea
+.env
+dist
+tsconfig.tsbuildinfo
