@@ -2,7 +2,6 @@
 /tests
 /.vscode
 /.idea
-/package-lock.json
 .env
 dist
 tsconfig.tsbuildinfo
