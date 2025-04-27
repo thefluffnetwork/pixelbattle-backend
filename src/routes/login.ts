@@ -68,8 +68,6 @@ export const login: RouteOptions<Server, IncomingMessage, ServerResponse, { Quer
                 { upsert: true }
             );
 
-        auth.joinPixelateitServer();
-
         const params: CookieSerializeOptions = {
             domain: config.frontend.split('//')[1].split(':')[0],
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14), // 2 weeks
