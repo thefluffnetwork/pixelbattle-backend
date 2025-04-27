@@ -59,7 +59,7 @@ export class AuthHelper {
 					code,
 					grant_type: 'authorization_code',
 					redirect_uri: config.discord.bot.redirectUri,
-					scope: 'email identify guilds.join',
+					scope: 'email identify',
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
