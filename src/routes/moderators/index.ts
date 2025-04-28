@@ -7,18 +7,18 @@ import { authRequired } from "../../plugins/authRequired"
 import { UserRole } from "../../models/MongoUser"
 
 export function moderators(app: FastifyInstance, _: unknown, done: () => void) {
-	app.route(getAll)
+  app.route(getAll)
 
-	app.register(async (app, _, done) => {
-		await app.register(bindUser)
-		await app.register(authRequired)
-		await app.register(minUserRole, {
-			minRole: UserRole.Admin,
-		})
+  app.register(async (app, _, done) => {
+    await app.register(bindUser)
+    await app.register(authRequired)
+    await app.register(minUserRole, {
+      minRole: UserRole.Admin,
+    })
 
-		app.route(edit)
-		done()
-	})
+    app.route(edit)
+    done()
+  })
 
-	done()
+  done()
 }

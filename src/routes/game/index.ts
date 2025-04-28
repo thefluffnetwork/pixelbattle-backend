@@ -7,19 +7,19 @@ import { change } from "./change"
 import { UserRole } from "../../models/MongoUser"
 
 export function info(app: FastifyInstance, _: unknown, done: () => void) {
-	app.route(get)
+  app.route(get)
 
-	app.register(async (app, _, done) => {
-		await app.register(bindUser)
-		await app.register(authRequired)
-		await app.register(minUserRole, {
-			minRole: UserRole.Admin,
-		})
+  app.register(async (app, _, done) => {
+    await app.register(bindUser)
+    await app.register(authRequired)
+    await app.register(minUserRole, {
+      minRole: UserRole.Admin,
+    })
 
-		app.route(change)
+    app.route(change)
 
-		done()
-	})
+    done()
+  })
 
-	done()
+  done()
 }
