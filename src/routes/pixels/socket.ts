@@ -1,42 +1,42 @@
-import { RouteOptions } from "fastify";
-import { SocketPayload } from "../../types/SocketActions";
-import { SocketStream } from "@fastify/websocket";
-import WebSocket from "ws";
+import type { RouteOptions } from "fastify"
+import type { SocketPayload } from "../../types/SocketActions"
+import type { SocketStream } from "@fastify/websocket"
+import type WebSocket from "ws"
 
 export type SocketConnection = SocketStream & {
-    socket: WebSocket.WebSocket & { requestIp: string; }
+	socket: WebSocket.WebSocket & { requestIp: string }
 }
 
 export const socket: RouteOptions = {
-    method: 'GET',
-    url: '/socket',
-    schema: {},
-    config: {
-        rateLimit: {
-            max: 3,
-            timeWindow: '1s'
-        }
-    },
-    handler(request, response) {
-        return response.status(418).send('why did you check this?');
-    },
-    wsHandler(connection, request) {
-        connection.setEncoding('utf8');
+	method: "GET",
+	url: "/socket",
+	schema: {},
+	config: {
+		rateLimit: {
+			max: 3,
+			timeWindow: "1s",
+		},
+	},
+	handler(request, response) {
+		return response.status(418).send("why did you check this?")
+	},
+	wsHandler(connection, request) {
+		connection.setEncoding("utf8")
 
-        const cloudflareIpHeaders = request.headers['cf-connecting-ip']
-        const ip = cloudflareIpHeaders
-            ? Array.isArray(cloudflareIpHeaders)
-                ? cloudflareIpHeaders[0]
-                : cloudflareIpHeaders
-            : request.ip;
+		const cloudflareIpHeaders = request.headers["cf-connecting-ip"]
+		const ip = cloudflareIpHeaders
+			? Array.isArray(cloudflareIpHeaders)
+				? cloudflareIpHeaders[0]
+				: cloudflareIpHeaders
+			: request.ip
 
-        (connection as SocketConnection).socket.requestIp = ip;
+		;(connection as SocketConnection).socket.requestIp = ip
 
-        const action: SocketPayload<"ENDED"> = {
-            op: "ENDED",
-            value: request.server.game.ended,
-        }
+		const action: SocketPayload<"ENDED"> = {
+			op: "ENDED",
+			value: request.server.game.ended,
+		}
 
-        connection.write(JSON.stringify(action));
-    }
+		connection.write(JSON.stringify(action))
+	},
 }

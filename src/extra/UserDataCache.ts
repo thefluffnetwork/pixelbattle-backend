@@ -1,32 +1,34 @@
-import { config } from "../config";
-import { MongoUser } from "../models/MongoUser";
+import { config } from "../config"
+import type { MongoUser } from "../models/MongoUser"
 
 export class UserDataCache {
-    private _expiresOn: number = 0;
-    private _user: MongoUser;
-    
-    constructor(data: MongoUser) {
-        this._user = data
+	private _expiresOn = 0
+	private _user: MongoUser
 
-        this.breath();
-    }
+	constructor(data: MongoUser) {
+		this._user = data
 
+		this.breath()
+	}
 
-    public get expiresOn() {
-        return this._expiresOn;
-    }
+	public get expiresOn() {
+		return this._expiresOn
+	}
 
-    public get user() {
-        return this._user;
-    }
+	public get user() {
+		return this._user
+	}
 
-    public set<T extends keyof MongoUser>(prop: T, val: MongoUser[T]): MongoUser[T] {
-        this._user[prop] = val;
+	public set<T extends keyof MongoUser>(
+		prop: T,
+		val: MongoUser[T],
+	): MongoUser[T] {
+		this._user[prop] = val
 
-        return val;
-    }
+		return val
+	}
 
-    public breath() {
-        this._expiresOn = Date.now() + config.expiresIn;
-    }
+	public breath() {
+		this._expiresOn = Date.now() + config.expiresIn
+	}
 }

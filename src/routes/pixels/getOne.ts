@@ -1,38 +1,39 @@
-import { RouteOptions } from "fastify";
-import { IncomingMessage, Server, ServerResponse } from "http";
-import { EntityNotFoundError } from "../../errors";
-import { utils } from "../../extra/Utils";
+import type { RouteOptions } from "fastify"
+import type { IncomingMessage, Server, ServerResponse } from "http"
+import { EntityNotFoundError } from "../../errors"
+import { utils } from "../../extra/Utils"
 
+export const getOne: RouteOptions<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	{ Querystring: { x: number; y: number } }
+> = {
+	method: "GET",
+	url: "/",
+	schema: {
+		querystring: {
+			x: { type: "integer" },
+			y: { type: "integer" },
+		},
+	},
+	config: {
+		rateLimit: {
+			max: 3,
+			timeWindow: "1s",
+		},
+	},
+	async handler(request, response) {
+		const x = request.query.x
+		const y = request.query.y
 
-export const getOne: RouteOptions<Server, IncomingMessage, ServerResponse, { Querystring: { x: number; y: number }; }> = {
-    method: 'GET',
-    url: '/',
-    schema: {
-        querystring: {
-            x: { type: 'integer' },
-            y: { type: 'integer' }
-        }
-    },
-    config: {
-        rateLimit: {
-            max: 3,
-            timeWindow: '1s'
-        }
-    },
-    async handler(request, response) {
-        const x = request.query.x;
-        const y = request.query.y;
+		const pixel = request.server.cache.canvasManager.select({ x, y })
 
-        const pixel = request.server.cache.canvasManager.select({ x, y });
+		if (!pixel) throw new EntityNotFoundError("pixel")
 
-        if(!pixel)
-            throw new EntityNotFoundError("pixel");
-
-        return response
-            .code(200)
-            .send({
-                ...pixel,
-                color: request.server.cache.canvasManager.getColor({ x, y })
-            });
-    }
+		return response.code(200).send({
+			...pixel,
+			color: request.server.cache.canvasManager.getColor({ x, y }),
+		})
+	},
 }

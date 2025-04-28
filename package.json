@@ -1,40 +1,40 @@
 {
-  "name": "pixelbattle-backend",
-  "version": "4.0.0",
-  "description": "API for https://pixelbattle.fun/",
-  "main": "./src/index.js",
-  "scripts": {
-    "prod": "tsc --build && node ./dist/index.js",
-    "dev": "nodemon src/index.ts",
-    "build": "tsc --build --force"
-  },
-  "keywords": [],
-  "author": "pixelate-it",
-  "license": "GPL-3.0-only",
-  "dependencies": {
-    "@fastify/cookie": "^9.3.1",
-    "@fastify/cors": "^8.4.0",
-    "@fastify/formbody": "^7.4.0",
-    "@fastify/mongodb": "^8.0.0",
-    "@fastify/rate-limit": "^8.0.3",
-    "@fastify/under-pressure": "^8.3.0",
-    "@fastify/websocket": "^8.2.0",
-    "@types/node": "^20.10.0",
-    "@types/ws": "^8.5.10",
-    "fast-png": "^6.2.0",
-    "fastify": "^4.24.3",
-    "mongodb": "^6.2.0",
-    "node-fetch": "^2.7.0",
-    "uuid": "^9.0.1"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/node-fetch": "^2.6.11",
-    "@types/uuid": "^9.0.7",
-    "dotenv": "^16.3.1",
-    "fastify-plugin": "^4.5.1",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "~5.8.3"
-  }
+	"name": "pixelbattle-backend",
+	"version": "4.0.0",
+	"description": "API for https://pixelbattle.fun/",
+	"main": "./src/index.js",
+	"scripts": {
+		"prod": "tsc --build && node ./dist/index.js",
+		"dev": "nodemon src/index.ts",
+		"build": "tsc --build --force"
+	},
+	"keywords": [],
+	"author": "pixelate-it",
+	"license": "GPL-3.0-only",
+	"dependencies": {
+		"@fastify/cookie": "^9.3.1",
+		"@fastify/cors": "^8.4.0",
+		"@fastify/formbody": "^7.4.0",
+		"@fastify/mongodb": "^8.0.0",
+		"@fastify/rate-limit": "^8.0.3",
+		"@fastify/under-pressure": "^8.3.0",
+		"@fastify/websocket": "^8.2.0",
+		"@types/node": "^20.10.0",
+		"@types/ws": "^8.5.10",
+		"fast-png": "^6.2.0",
+		"fastify": "^4.24.3",
+		"mongodb": "^6.2.0",
+		"node-fetch": "^2.7.0",
+		"uuid": "^9.0.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/node-fetch": "^2.6.11",
+		"@types/uuid": "^9.0.7",
+		"dotenv": "^16.3.1",
+		"fastify-plugin": "^4.5.1",
+		"nodemon": "^3.0.1",
+		"ts-node": "^10.9.1",
+		"typescript": "~5.8.3"
+	}
 }
