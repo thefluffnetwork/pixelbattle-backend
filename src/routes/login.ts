@@ -1,5 +1,5 @@
 import type { RouteOptions } from "fastify"
-import type { IncomingMessage, Server, ServerResponse } from "http"
+import type { IncomingMessage, Server, ServerResponse } from "node:http"
 import type { CookieSerializeOptions } from "@fastify/cookie"
 import { AuthHelper } from "../helpers/AuthHelper"
 import type { MongoUser } from "../models/MongoUser"

@@ -1,5 +1,5 @@
 import type { RouteOptions } from "fastify"
-import type { IncomingMessage, Server, ServerResponse } from "http"
+import type { IncomingMessage, Server, ServerResponse } from "node:http"
 import { EntityNotFoundError } from "../../errors"
 import { toJson } from "../../extra/toJson"
 import type { SocketPayload } from "../../types/SocketActions"
