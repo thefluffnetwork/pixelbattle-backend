@@ -1,8 +1,8 @@
-name: deploy
+name: Publish docker images
 
 on:
   push:
-    branches: main
+    branches: [main]
 
 permissions:
   contents: read
@@ -10,12 +10,20 @@ permissions:
 
 jobs:
   publish-docker-images:
+    name: Build & publish docker images
     runs-on: ubuntu-latest
     steps:
-      - uses: docker/setup-buildx-action@v3
-      - uses: actions/checkout@v4
-      - run: |
+      - name: Set up Docker Builx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Save current commit hash
+        run: |
           echo "GIT_COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
-      - run: |
+
+      - name: Build & publish docker images to GHCR
+        run: |
           docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
           docker buildx bake --file compose.publish.yaml --push
