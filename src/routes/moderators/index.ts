@@ -1,10 +1,10 @@
 import type { FastifyInstance } from "fastify"
-import { getAll } from "./getAll"
+import { UserRole } from "../../models/MongoUser"
+import { authRequired } from "../../plugins/authRequired"
 import { bindUser } from "../../plugins/bindUser"
 import { minUserRole } from "../../plugins/minUserRole"
 import { edit } from "./edit"
-import { authRequired } from "../../plugins/authRequired"
-import { UserRole } from "../../models/MongoUser"
+import { getAll } from "./getAll"
 
 export function moderators(app: FastifyInstance, _: unknown, done: () => void) {
   app.route(getAll)

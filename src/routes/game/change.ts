@@ -1,10 +1,10 @@
-import type { RouteOptions } from "fastify"
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
+import type { RouteOptions } from "fastify"
+import { WebSocket } from "ws"
 import { EntityNotFoundError } from "../../errors"
 import { toJson } from "../../extra/toJson"
-import type { SocketPayload } from "../../types/SocketActions"
 import { genericSuccessResponse } from "../../types/ApiReponse"
-import { WebSocket } from "ws"
+import type { SocketPayload } from "../../types/SocketActions"
 
 interface ApiBody {
   name?: string

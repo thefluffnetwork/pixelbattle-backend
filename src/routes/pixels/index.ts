@@ -1,15 +1,15 @@
 import type { FastifyInstance } from "fastify"
+import { UserRole } from "../../models/MongoUser"
+import { authRequired } from "../../plugins/authRequired"
+import { bindUser } from "../../plugins/bindUser"
+import { minUserRole } from "../../plugins/minUserRole"
+import { clear } from "./clear"
 import { getAll } from "./getAll"
+import { getAllRaw } from "./getAllRaw"
 import { getOne } from "./getOne"
 import { getTags } from "./getTags"
 import { socket } from "./socket"
-import { bindUser } from "../../plugins/bindUser"
-import { authRequired } from "../../plugins/authRequired"
-import { minUserRole } from "../../plugins/minUserRole"
 import { update } from "./update"
-import { getAllRaw } from "./getAllRaw"
-import { clear } from "./clear"
-import { UserRole } from "../../models/MongoUser"
 
 export function pixels(app: FastifyInstance, _: unknown, done: () => void) {
   app.route(getAll)

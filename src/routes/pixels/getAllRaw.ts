@@ -1,6 +1,6 @@
 import type { RouteOptions } from "fastify"
-import type { Pixel } from "../../models/MongoPixel"
 import { utils } from "../../extra/Utils"
+import type { Pixel } from "../../models/MongoPixel"
 
 export const getAllRaw: RouteOptions = {
   method: "GET",

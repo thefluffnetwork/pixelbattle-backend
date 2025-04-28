@@ -1,12 +1,12 @@
 import type { FastifyInstance } from "fastify"
-import { getUser } from "./getOne"
-import { changeTag } from "./changeTag"
-import { bindUser } from "../../plugins/bindUser"
+import { UserRole } from "../../models/MongoUser"
 import { authRequired } from "../../plugins/authRequired"
+import { bindUser } from "../../plugins/bindUser"
 import { minUserRole } from "../../plugins/minUserRole"
 import { ban } from "./ban"
+import { changeTag } from "./changeTag"
+import { getUser } from "./getOne"
 import { unban } from "./unban"
-import { UserRole } from "../../models/MongoUser"
 
 export function users(app: FastifyInstance, _: unknown, done: () => void) {
   app.route(getUser)

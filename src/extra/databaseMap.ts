@@ -1,4 +1,4 @@
-import type { CollectionOptions, Collection, Db } from "mongodb"
+import type { Collection, CollectionOptions, Db } from "mongodb"
 import type { MongoGame } from "../models/MongoGame"
 import type { MongoPixel } from "../models/MongoPixel"
 import type { MongoUser } from "../models/MongoUser"

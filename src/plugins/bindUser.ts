@@ -1,7 +1,7 @@
 import type { FastifyRequest } from "fastify"
-import type { MongoUser } from "../models/MongoUser"
 import fp from "fastify-plugin"
 import { NotAuthorizedError } from "../errors"
+import type { MongoUser } from "../models/MongoUser"
 
 declare module "fastify" {
   interface FastifyRequest {

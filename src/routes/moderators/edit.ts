@@ -1,8 +1,8 @@
-import type { RouteOptions } from "fastify"
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
+import type { RouteOptions } from "fastify"
 import { EntityNotFoundError } from "../../errors"
-import { genericSuccessResponse } from "../../types/ApiReponse"
 import type { UserRole } from "../../models/MongoUser"
+import { genericSuccessResponse } from "../../types/ApiReponse"
 
 interface Body {
   action: boolean

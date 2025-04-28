@@ -1,6 +1,6 @@
 import type { Filter } from "mongodb"
-import type { MongoUser } from "../models/MongoUser"
 import { UserDataCache } from "../extra/UserDataCache"
+import type { MongoUser } from "../models/MongoUser"
 import { BaseManager } from "./BaseManager"
 
 export class UserManager extends BaseManager<MongoUser> {

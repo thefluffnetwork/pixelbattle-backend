@@ -1,7 +1,7 @@
 import type { Collection } from "mongodb"
+import { utils } from "../extra/Utils"
 import type { MongoPixel, Pixel } from "../models/MongoPixel"
 import { BaseManager } from "./BaseManager"
-import { utils } from "../extra/Utils"
 
 interface Point {
   x: number

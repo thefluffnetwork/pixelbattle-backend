@@ -1,9 +1,9 @@
-import type { RouteOptions } from "fastify"
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
+import type { RouteOptions } from "fastify"
 import { EntityNotFoundError } from "../../errors"
-import { genericSuccessResponse } from "../../types/ApiReponse"
 import type { BanInfo } from "../../models/MongoUser"
 import type { MongoUser } from "../../models/MongoUser"
+import { genericSuccessResponse } from "../../types/ApiReponse"
 
 interface Body {
   reason?: string

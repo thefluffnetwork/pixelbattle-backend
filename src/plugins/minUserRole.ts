@@ -1,5 +1,5 @@
-import { NotEnoughPrivilegesError } from "../errors"
 import fp from "fastify-plugin"
+import { NotEnoughPrivilegesError } from "../errors"
 import type { UserRole } from "../models/MongoUser"
 
 interface UserRoleOptions {

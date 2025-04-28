@@ -1,10 +1,10 @@
 import type { FastifyInstance } from "fastify"
-import { get } from "./get"
+import { UserRole } from "../../models/MongoUser"
 import { authRequired } from "../../plugins/authRequired"
 import { bindUser } from "../../plugins/bindUser"
 import { minUserRole } from "../../plugins/minUserRole"
 import { change } from "./change"
-import { UserRole } from "../../models/MongoUser"
+import { get } from "./get"
 
 export function info(app: FastifyInstance, _: unknown, done: () => void) {
   app.route(get)

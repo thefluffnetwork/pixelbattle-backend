@@ -1,19 +1,19 @@
-import type { RouteOptions } from "fastify"
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
-import { LoggingHelper } from "../../helpers/LoggingHelper"
+import type { RouteOptions } from "fastify"
+import { WebSocket } from "ws"
 import { config } from "../../config"
 import {
+  EndedError,
+  EntityNotFoundError,
   TokenBannedError,
   UserCooldownError,
-  EntityNotFoundError,
-  EndedError,
   WrongTokenError,
 } from "../../errors"
-import { genericSuccessResponse } from "../../types/ApiReponse"
 import { toJson } from "../../extra/toJson"
-import type { SocketPayload } from "../../types/SocketActions"
+import { LoggingHelper } from "../../helpers/LoggingHelper"
 import { UserRole } from "../../models/MongoUser"
-import { WebSocket } from "ws"
+import { genericSuccessResponse } from "../../types/ApiReponse"
+import type { SocketPayload } from "../../types/SocketActions"
 
 interface Body {
   color: string

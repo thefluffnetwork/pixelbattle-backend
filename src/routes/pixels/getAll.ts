@@ -1,5 +1,5 @@
-import type { RouteOptions } from "fastify"
 import { encode } from "fast-png"
+import type { RouteOptions } from "fastify"
 
 export const getAll: RouteOptions = {
   method: "GET",

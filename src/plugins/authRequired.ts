@@ -1,5 +1,5 @@
-import { NotAuthorizedError } from "../errors"
 import fp from "fastify-plugin"
+import { NotAuthorizedError } from "../errors"
 
 export const authRequired = fp(async app => {
   app.addHook("preHandler", async req => {

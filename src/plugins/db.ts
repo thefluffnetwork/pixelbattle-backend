@@ -1,7 +1,7 @@
-import type { FastifyInstance } from "fastify"
 import fastifyMongodb from "@fastify/mongodb"
-import { config } from "../config"
+import type { FastifyInstance } from "fastify"
 import fp from "fastify-plugin"
+import { config } from "../config"
 import {
   type PixelDatabaseCollections,
   createDatabaseMap,

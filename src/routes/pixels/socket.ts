@@ -1,7 +1,7 @@
-import type { RouteOptions } from "fastify"
-import type { SocketPayload } from "../../types/SocketActions"
 import type { SocketStream } from "@fastify/websocket"
+import type { RouteOptions } from "fastify"
 import type WebSocket from "ws"
+import type { SocketPayload } from "../../types/SocketActions"
 
 export type SocketConnection = SocketStream & {
   socket: WebSocket.WebSocket & { requestIp: string }

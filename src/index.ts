@@ -1,10 +1,10 @@
 import fastify from "fastify"
-import { plugins } from "./plugins/plugins"
-import { routes } from "./plugins/routes"
+import { cache } from "./plugins/cache"
 import { database } from "./plugins/db"
 import { errorHandler } from "./plugins/errorHandler"
-import { cache } from "./plugins/cache"
 import { game } from "./plugins/game"
+import { plugins } from "./plugins/plugins"
+import { routes } from "./plugins/routes"
 
 async function init() {
   const app = fastify({

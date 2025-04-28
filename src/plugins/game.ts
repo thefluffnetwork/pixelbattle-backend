@@ -1,6 +1,6 @@
 import fp from "fastify-plugin"
-import { config } from "../config"
 import type { WithId } from "mongodb"
+import { config } from "../config"
 import type { MongoGame } from "../models/MongoGame"
 
 declare module "fastify" {

@@ -1,5 +1,5 @@
-import type { RouteOptions } from "fastify"
 import { readFile } from "node:fs/promises"
+import type { RouteOptions } from "fastify"
 
 export const favicon: RouteOptions = {
   method: "GET",

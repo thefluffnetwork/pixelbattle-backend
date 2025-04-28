@@ -1,5 +1,5 @@
-import { config as dotenvConfig } from "dotenv"
 import { join } from "node:path"
+import { config as dotenvConfig } from "dotenv"
 
 dotenvConfig({ path: join(__dirname, "../.env") })
 

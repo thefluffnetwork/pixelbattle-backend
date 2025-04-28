@@ -1,5 +1,5 @@
-import type { RouteOptions } from "fastify"
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
+import type { RouteOptions } from "fastify"
 import { EntityNotFoundError } from "../../errors"
 
 export const getUser: RouteOptions<

@@ -1,11 +1,11 @@
-import type { RouteOptions } from "fastify"
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
 import type { CookieSerializeOptions } from "@fastify/cookie"
-import { AuthHelper } from "../helpers/AuthHelper"
-import type { MongoUser } from "../models/MongoUser"
-import { utils } from "../extra/Utils"
+import type { RouteOptions } from "fastify"
 import { config } from "../config"
 import { AuthLoginError, NotVerifiedEmailError } from "../errors"
+import { utils } from "../extra/Utils"
+import { AuthHelper } from "../helpers/AuthHelper"
+import type { MongoUser } from "../models/MongoUser"
 import { UserRole } from "../models/MongoUser"
 
 export const login: RouteOptions<
