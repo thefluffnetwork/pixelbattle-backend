@@ -43,7 +43,6 @@ export class UserManager extends BaseManager<MongoUser> {
 		if (!user) {
 			return null
 		}
-
 		// replace the cached user with value
 		;(Object.keys(value) as (keyof MongoUser)[])
 			.filter(key => value[key] !== undefined)

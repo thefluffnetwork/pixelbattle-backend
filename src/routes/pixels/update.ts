@@ -105,7 +105,7 @@ export const update: RouteOptions<
 				author: request.user.username,
 			})
 
-      for (const client of request.server.websocketServer.clients) {
+			for (const client of request.server.websocketServer.clients) {
 				if (client.readyState !== WebSocket.OPEN) continue
 
 				const payload: SocketPayload<"PLACE"> = {

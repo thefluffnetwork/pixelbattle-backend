@@ -11,7 +11,6 @@ async function init() {
 		logger: process.env.NODE_ENV === "development",
 		pluginTimeout: 300000,
 	})
-
 	;[
 		"  _____    _                 _           _              _____   _     _ ",
 		" |  __ \\  (_)               | |         | |            |_   _| | |   | |",

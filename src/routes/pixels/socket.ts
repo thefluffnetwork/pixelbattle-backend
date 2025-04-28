@@ -29,7 +29,6 @@ export const socket: RouteOptions = {
 				? cloudflareIpHeaders[0]
 				: cloudflareIpHeaders
 			: request.ip
-
 		;(connection as SocketConnection).socket.requestIp = ip
 
 		const action: SocketPayload<"ENDED"> = {

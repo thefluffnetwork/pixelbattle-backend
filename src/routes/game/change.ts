@@ -60,7 +60,7 @@ export const change: RouteOptions<
 				request.server.cache.createInterval()
 			}
 
-      for (const client of request.server.websocketServer.clients) {
+			for (const client of request.server.websocketServer.clients) {
 				if (client.readyState !== WebSocket.OPEN) continue
 
 				const payload: SocketPayload<"ENDED"> = {
