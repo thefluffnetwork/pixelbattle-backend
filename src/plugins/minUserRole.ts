@@ -8,8 +8,9 @@ interface UserRoleOptions {
 
 export const minUserRole = fp<UserRoleOptions>(async (app, options) => {
 	app.addHook("preHandler", async req => {
-		if (options.minRole > req.user!.role)
+		if (req.user?.role && options.minRole > req.user.role) {
 			throw new NotEnoughPrivilegesError(options.minRole)
+    }
 	})
 
 	return

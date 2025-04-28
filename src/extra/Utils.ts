@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid"
 
 export const utils = {
 	generateToken(date: number | null = null) {
-		return `${(uuidv4() + "." + uuidv4()).replace(/-/g, "")}.${(date ?? Date.now()).toString(36)}` // length = 72 (static)
+		return `${(`${uuidv4()}.${uuidv4()}`).replace(/-/g, "")}.${(date ?? Date.now()).toString(36)}` // length = 72 (static)
 	},
 	translateHex(hex: string) {
 		const R = Number.parseInt(hex.slice(1, 3), 16)
@@ -13,12 +13,11 @@ export const utils = {
 	},
 	translateRGB(rgb: Uint8ClampedArray | number[]) {
 		return (
-			"#" +
-			[...rgb]
+			`#${[...rgb]
 				.map(
 					f => (f < 16 ? "0" : "") + Math.max(0, Math.min(f, 255)).toString(16),
 				)
-				.join("")
+				.join("")}`
 		)
 	},
 }

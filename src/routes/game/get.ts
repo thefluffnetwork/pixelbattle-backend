@@ -26,9 +26,10 @@ export const get: RouteOptions<Server, IncomingMessage, ServerResponse> = {
 	},
 	async handler(request, response) {
 		const online = new Set()
-		request.server.websocketServer.clients.forEach(v =>
-			online.add((v as SocketConnection["socket"]).requestIp),
-		)
+
+    for (const client of request.server.websocketServer.clients) {
+			online.add((client as SocketConnection["socket"]).requestIp)
+    }
 
 		const { game } = request.server
 

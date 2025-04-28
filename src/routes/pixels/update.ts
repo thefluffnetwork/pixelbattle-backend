@@ -105,8 +105,8 @@ export const update: RouteOptions<
 				author: request.user.username,
 			})
 
-			request.server.websocketServer.clients.forEach(client => {
-				if (client.readyState !== WebSocket.OPEN) return
+      for (const client of request.server.websocketServer.clients) {
+				if (client.readyState !== WebSocket.OPEN) continue
 
 				const payload: SocketPayload<"PLACE"> = {
 					op: "PLACE",
@@ -116,7 +116,7 @@ export const update: RouteOptions<
 				}
 
 				client.send(toJson(payload))
-			})
+			}
 
 			LoggingHelper.sendPixelPlaced({
 				tag,

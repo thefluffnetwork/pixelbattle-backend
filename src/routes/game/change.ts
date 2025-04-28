@@ -60,8 +60,8 @@ export const change: RouteOptions<
 				request.server.cache.createInterval()
 			}
 
-			request.server.websocketServer.clients.forEach(client => {
-				if (client.readyState !== WebSocket.OPEN) return
+      for (const client of request.server.websocketServer.clients) {
+				if (client.readyState !== WebSocket.OPEN) continue
 
 				const payload: SocketPayload<"ENDED"> = {
 					op: "ENDED",
@@ -69,7 +69,7 @@ export const change: RouteOptions<
 				}
 
 				client.send(toJson(payload))
-			})
+			}
 		}
 
 		game.cooldown = request.body.cooldown ?? game.cooldown
