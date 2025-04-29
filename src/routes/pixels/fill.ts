@@ -1,4 +1,5 @@
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
+import { setImmediate } from "node:timers/promises"
 import type { RouteOptions } from "fastify"
 import { WebSocket } from "ws"
 import { toJson } from "../../extra/toJson"
@@ -80,7 +81,13 @@ export const fill: RouteOptions<
 
           client.send(toJson(payload))
         }
+
+        if (y % 10 === 0) {
+          await setImmediate()
+        }
       }
+
+      await setImmediate()
     }
 
     return response.code(200).send(genericSuccessResponse)
