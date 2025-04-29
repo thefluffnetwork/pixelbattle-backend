@@ -6,7 +6,9 @@
   "scripts": {
     "prod": "tsc --build && node ./dist/index.js",
     "dev": "nodemon src/index.ts",
-    "build": "tsc --build --force"
+    "build": "tsc --build --force",
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
   },
   "keywords": [],
   "author": "pixelate-it",
