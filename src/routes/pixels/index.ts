@@ -4,6 +4,7 @@ import { authRequired } from "../../plugins/authRequired"
 import { bindUser } from "../../plugins/bindUser"
 import { minUserRole } from "../../plugins/minUserRole"
 import { clear } from "./clear"
+import { fill } from "./fill"
 import { getAll } from "./getAll"
 import { getAllRaw } from "./getAllRaw"
 import { getOne } from "./getOne"
@@ -35,6 +36,8 @@ export function pixels(app: FastifyInstance, _: unknown, done: () => void) {
     })
 
     app.route(clear)
+    app.route(fill)
+
     done()
   })
 
