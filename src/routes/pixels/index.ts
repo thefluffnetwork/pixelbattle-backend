@@ -10,6 +10,7 @@ import { getAllRaw } from "./getAllRaw"
 import { getOne } from "./getOne"
 import { getTags } from "./getTags"
 import { socket } from "./socket"
+import { sync } from "./sync"
 import { update } from "./update"
 
 export function pixels(app: FastifyInstance, _: unknown, done: () => void) {
@@ -37,6 +38,7 @@ export function pixels(app: FastifyInstance, _: unknown, done: () => void) {
 
     app.route(clear)
     app.route(fill)
+    app.route(sync)
 
     done()
   })
