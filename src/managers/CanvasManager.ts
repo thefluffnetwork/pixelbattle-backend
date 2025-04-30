@@ -1,4 +1,4 @@
-import type { Collection } from "mongodb"
+import type { AnyBulkWriteOperation, Collection } from "mongodb"
 import { utils } from "../extra/Utils"
 import type { MongoPixel } from "../models/MongoPixel"
 import { BaseManager } from "./BaseManager"
@@ -94,8 +94,9 @@ export class CanvasManager extends BaseManager<MongoPixel> {
           update: {
             $set: pixel,
           },
+          upsert: true,
         },
-      }
+      } satisfies AnyBulkWriteOperation<MongoPixel>
     })
 
     if (bulk.length) this.collection.bulkWrite(bulk)
@@ -108,7 +109,13 @@ export class CanvasManager extends BaseManager<MongoPixel> {
   select({ x, y }: Point) {
     return (
       this.#pixels.get(`${x}:${y}`) ??
-      ({ author: null, tag: null, x, y, color: "#ffffff" } satisfies MongoPixel)
+      ({
+        author: null,
+        tag: null,
+        x,
+        y,
+        color: "#ffffff",
+      } satisfies MongoPixel)
     )
   }
 

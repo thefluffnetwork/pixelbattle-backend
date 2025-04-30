@@ -76,11 +76,6 @@ export const update: RouteOptions<
     const x = Number(request.body.x)
     const y = Number(request.body.y)
     const color = request.body.color
-    const pixel = request.server.cache.canvasManager.select({ x, y })
-
-    if (!pixel) {
-      throw new EntityNotFoundError("pixel")
-    }
 
     const cooldown =
       Date.now() +
@@ -92,6 +87,7 @@ export const update: RouteOptions<
       { token: request.user.token },
       { cooldown },
     )
+
     const cacheKey = `${request.user.userID}-${x}-${y}-${color}` as const
 
     if (!request.server.cache.set.has(cacheKey)) {
