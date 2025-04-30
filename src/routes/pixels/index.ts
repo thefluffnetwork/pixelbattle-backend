@@ -9,6 +9,7 @@ import { getAll } from "./getAll"
 import { getAllRaw } from "./getAllRaw"
 import { getOne } from "./getOne"
 import { getTags } from "./getTags"
+import { resize } from "./resize"
 import { socket } from "./socket"
 import { sync } from "./sync"
 import { update } from "./update"
@@ -39,6 +40,7 @@ export function pixels(app: FastifyInstance, _: unknown, done: () => void) {
     app.route(clear)
     app.route(fill)
     app.route(sync)
+    app.route(resize)
 
     done()
   })

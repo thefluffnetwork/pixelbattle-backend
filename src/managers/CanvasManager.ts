@@ -34,7 +34,7 @@ export class CanvasManager extends BaseManager<MongoPixel> {
   }
 
   get pixels() {
-    return this.#pixels
+    return Array.from(this.#pixels.values())
   }
 
   #computeColors() {

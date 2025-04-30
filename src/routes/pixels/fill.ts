@@ -82,12 +82,18 @@ export const fill: RouteOptions<
           client.send(toJson(payload))
         }
 
-        if (y % 10 === 0) {
-          await setImmediate()
-        }
+        await setImmediate()
       }
 
       await setImmediate()
+    }
+
+    for (const client of request.server.websocketServer.clients) {
+      if (client.readyState !== WebSocket.OPEN) continue
+
+      const payload: SocketPayload<"RESET"> = { op: "RESET" }
+
+      client.send(toJson(payload))
     }
 
     return response.code(200).send(genericSuccessResponse)

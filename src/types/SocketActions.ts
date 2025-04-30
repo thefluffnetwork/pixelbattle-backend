@@ -7,6 +7,7 @@ export interface SocketServerActions {
   "ENDED": {
     value: boolean
   }
+  "RESET": Record<never, never>
 }
 
 export type SocketPayload<T extends keyof SocketServerActions> = {
