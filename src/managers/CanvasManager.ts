@@ -86,16 +86,13 @@ export class CanvasManager extends BaseManager<MongoPixel> {
 
   sendPixels() {
     const bulk = this.#changes.map(point => {
-      const pixel = this.select({ x: point.x, y: point.y })
+      const pixel = this.select(point)
 
       return {
         updateOne: {
-          filter: { x: point.x, y: point.y },
+          filter: point,
           update: {
-            $set: {
-              ...pixel,
-              color: this.getColor({ x: point.x, y: point.y }),
-            },
+            $set: pixel,
           },
         },
       }
@@ -126,13 +123,8 @@ export class CanvasManager extends BaseManager<MongoPixel> {
   }
 
   paint(pixel: MongoPixel) {
-    const canvasPixel = this.select({ x: pixel.x, y: pixel.y })
-
-    if (!canvasPixel) return
-
     this.#setColor({ x: pixel.x, y: pixel.y }, pixel.color)
-    canvasPixel.author = pixel.author
-    canvasPixel.tag = pixel.tag
+    this.#pixels.set(`${pixel.x}:${pixel.y}`, pixel)
 
     this.#changes.push({ x: pixel.x, y: pixel.y })
 
