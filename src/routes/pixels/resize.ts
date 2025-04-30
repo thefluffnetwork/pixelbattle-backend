@@ -37,7 +37,15 @@ export const resize: RouteOptions<
   async handler(request, response) {
     const { width, height } = request.body
 
-    await request.server.cache.canvasManager.resize(width, height)
+    request.server.game.width = width
+    request.server.game.height = height
+
+    request.server.cache.canvasManager.resize(width, height)
+
+    await request.server.database.games.updateOne(
+      { id: 0 },
+      { $set: { width, height } },
+    )
 
     for (const client of request.server.websocketServer.clients) {
       if (client.readyState !== WebSocket.OPEN) continue
