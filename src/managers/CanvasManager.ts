@@ -1,70 +1,101 @@
 import type { Collection } from "mongodb"
 import { utils } from "../extra/Utils"
-import type { MongoPixel, Pixel } from "../models/MongoPixel"
+import type { MongoPixel } from "../models/MongoPixel"
 import { BaseManager } from "./BaseManager"
 
-interface Point {
+type Point = {
   x: number
   y: number
 }
 
 export class CanvasManager extends BaseManager<MongoPixel> {
-  private readonly bitPP = 3
-  private _colors: Uint8ClampedArray
-  private _pixels: Pixel[]
-  private changes: Point[]
+  static readonly BITS_PER_PIXEL = 3
+
+  #pixels: Map<`${number}:${number}`, MongoPixel>
+  #changes: Point[]
+  #colors: Uint8ClampedArray | undefined
 
   constructor(
     collection: Collection<MongoPixel>,
-    readonly width: number,
-    readonly height: number,
+    public width: number,
+    public height: number,
   ) {
     super(collection)
 
-    this._colors = new Uint8ClampedArray(width * height * this.bitPP)
-    this._pixels = []
-    this.changes = []
+    this.#pixels = new Map()
+    this.#changes = []
   }
 
-  public get pixels() {
-    return this._pixels
+  resize(width: number, height: number) {
+    this.width = width
+    this.height = height
+
+    this.resetColors()
   }
 
-  public get colors() {
-    return this._colors
+  get pixels() {
+    return this.#pixels
   }
 
-  private startIndex({ x, y }: Point) {
-    return x + y * this.width
+  #computeColors() {
+    const colors = new Uint8ClampedArray(
+      this.width * this.height * CanvasManager.BITS_PER_PIXEL,
+    )
+
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
+        const pixel = this.select({ x, y })
+
+        const colorComponents = utils.translateHex(pixel.color)
+
+        const offset = (y * this.width + x) * CanvasManager.BITS_PER_PIXEL
+
+        colors.set(colorComponents, offset)
+      }
+    }
+
+    return colors
   }
 
-  public async init() {
-    const colors: number[][] = []
+  get colors() {
+    if (!this.#colors) {
+      this.#colors = this.#computeColors()
+    }
 
-    this._pixels = await this.collection
+    return this.#colors
+  }
+
+  resetColors() {
+    this.#colors = undefined
+  }
+
+  async init() {
+    const pixels = await this.collection
       .find({}, { projection: { _id: 0 } })
       .toArray()
       .then(pixels =>
         pixels.map(pixel => {
-          const { color, ...pix } = pixel
-
-          colors.push(utils.translateHex(color))
-          return pix
+          return [`${pixel.x}:${pixel.y}`, pixel] as const
         }),
       )
-    this._colors.set(colors.flat())
 
-    return this._pixels
+    this.#pixels = new Map(pixels)
+
+    return this.#pixels
   }
 
-  public sendPixels() {
-    const bulk = this.changes.map(pixel => {
-      const data = this.select({ x: pixel.x, y: pixel.y })!
+  sendPixels() {
+    const bulk = this.#changes.map(point => {
+      const pixel = this.select({ x: point.x, y: point.y })
+
       return {
         updateOne: {
-          filter: { x: pixel.x, y: pixel.y },
+          filter: { x: point.x, y: point.y },
           update: {
-            $set: { ...data, color: this.getColor({ x: pixel.x, y: pixel.y }) },
+            $set: {
+              ...pixel,
+              color: this.getColor({ x: point.x, y: point.y }),
+            },
           },
         },
       }
@@ -72,71 +103,50 @@ export class CanvasManager extends BaseManager<MongoPixel> {
 
     if (bulk.length) this.collection.bulkWrite(bulk)
 
-    this.changes = []
-    return this._pixels
+    this.#changes = []
+
+    return this.#pixels
   }
 
-  public select({ x, y }: Point) {
-    return this._pixels.find(pixel => pixel.x === x && pixel.y === y)
-  }
-
-  public async clear(color: string) {
-    const colors: number[][] = []
-    const RGB = utils.translateHex(color)
-    const pixels = new Array(this.width * this.height).fill(0).map((_, i) => {
-      colors.push(RGB)
-
-      return {
-        x: i % this.width,
-        y: Math.floor(i / this.width),
-        author: null,
-        tag: null,
-      }
-    })
-
-    await this.collection.drop()
-    await this.collection.insertMany(
-      pixels.map(pixel => ({ ...pixel, color })),
-      { ordered: true },
+  select({ x, y }: Point) {
+    return (
+      this.#pixels.get(`${x}:${y}`) ??
+      ({ author: null, tag: null, x, y, color: "#ffffff" } satisfies MongoPixel)
     )
-
-    this.changes = []
-    this._pixels = pixels
-    this._colors = new Uint8ClampedArray(colors.flat())
-
-    return pixels
   }
 
-  public paint(pixel: MongoPixel) {
+  async clear(_color: string) {
+    await this.collection.drop()
+
+    this.#changes = []
+    this.#pixels = new Map()
+    this.resetColors()
+
+    return this.#pixels
+  }
+
+  paint(pixel: MongoPixel) {
     const canvasPixel = this.select({ x: pixel.x, y: pixel.y })
 
     if (!canvasPixel) return
 
-    this.setColor({ x: pixel.x, y: pixel.y }, pixel.color)
+    this.#setColor({ x: pixel.x, y: pixel.y }, pixel.color)
     canvasPixel.author = pixel.author
     canvasPixel.tag = pixel.tag
 
-    this.changes.push({ x: pixel.x, y: pixel.y })
+    this.#changes.push({ x: pixel.x, y: pixel.y })
 
     return pixel
   }
 
-  public getColor({ x, y }: Point) {
-    const index = this.startIndex({ x, y })
-    const RGB = this._colors.slice(
-      index * this.bitPP,
-      index * this.bitPP + this.bitPP,
-    )
-
-    return utils.translateRGB(RGB)
+  getColor(point: Point) {
+    return this.select(point).color
   }
 
-  private setColor({ x, y }: Point, color: string) {
-    const startIndex = this.startIndex({ x, y }) * this.bitPP
-    const [R, G, B] = utils.translateHex(color)
+  #setColor({ x, y }: Point, color: string) {
+    const offset = (x + y * this.width) * CanvasManager.BITS_PER_PIXEL
+    const colorComponents = utils.translateHex(color)
 
-    this._colors[startIndex] = R
-    this._colors[startIndex + 1] = G
-    this._colors[startIndex + 2] = B
+    this.colors.set(colorComponents, offset)
   }
 }
