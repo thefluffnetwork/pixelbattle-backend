@@ -39,6 +39,7 @@
     "fastify-plugin": "^4.5.1",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
+    "tsx": "^4.19.4",
     "typescript": "~5.8.3"
   },
   "volta": {
