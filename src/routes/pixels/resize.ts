@@ -23,8 +23,8 @@ export const resize: RouteOptions<
       type: "object",
       required: ["width", "height"],
       properties: {
-        width: { type: "integer" },
-        height: { type: "integer" },
+        width: { type: "integer", minimum: 100, maximum: 2500 },
+        height: { type: "integer", minimum: 100, maximum: 2500 },
       },
     },
   },
