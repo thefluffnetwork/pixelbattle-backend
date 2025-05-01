@@ -10,6 +10,7 @@ type Body = {
   color?: string
   topLeft: { x: number; y: number }
   bottomRight: { x: number; y: number }
+  live?: boolean
 }
 
 export const fill: RouteOptions<
@@ -45,6 +46,9 @@ export const fill: RouteOptions<
             y: { type: "integer" },
           },
         },
+        live: {
+          type: "boolean",
+        },
       },
     },
   },
@@ -55,7 +59,12 @@ export const fill: RouteOptions<
     },
   },
   async handler(request, response) {
-    const { color = "#ffffff", topLeft, bottomRight } = request.body
+    const {
+      color = "#ffffff",
+      topLeft,
+      bottomRight,
+      live = false,
+    } = request.body
 
     const { canvasManager } = request.server.cache
 
@@ -69,31 +78,37 @@ export const fill: RouteOptions<
           tag: null,
         })
 
-        for (const client of request.server.websocketServer.clients) {
-          if (client.readyState !== WebSocket.OPEN) continue
+        if (live) {
+          for (const client of request.server.websocketServer.clients) {
+            if (client.readyState !== WebSocket.OPEN) continue
 
-          const payload: SocketPayload<"PLACE"> = {
-            op: "PLACE",
-            x,
-            y,
-            color,
+            const payload: SocketPayload<"PLACE"> = {
+              op: "PLACE",
+              x,
+              y,
+              color,
+            }
+
+            client.send(toJson(payload))
           }
 
-          client.send(toJson(payload))
+          await setImmediate()
         }
-
-        await setImmediate()
       }
 
-      await setImmediate()
+      if (live) {
+        await setImmediate()
+      }
     }
 
-    for (const client of request.server.websocketServer.clients) {
-      if (client.readyState !== WebSocket.OPEN) continue
+    if (!live) {
+      for (const client of request.server.websocketServer.clients) {
+        if (client.readyState !== WebSocket.OPEN) continue
 
-      const payload: SocketPayload<"RESET"> = { op: "RESET" }
+        const payload: SocketPayload<"RESET"> = { op: "RESET" }
 
-      client.send(toJson(payload))
+        client.send(toJson(payload))
+      }
     }
 
     return response.code(200).send(genericSuccessResponse)
