@@ -134,6 +134,15 @@ export class CanvasManager extends BaseManager<MongoPixel> {
   }
 
   paint(pixel: MongoPixel) {
+    if (
+      pixel.x < 0 ||
+      pixel.y < 0 ||
+      pixel.x >= this.width ||
+      pixel.y >= this.height
+    ) {
+      return pixel
+    }
+
     this.#setColor({ x: pixel.x, y: pixel.y }, pixel.color)
     this.#pixels.set(`${pixel.x}:${pixel.y}`, pixel)
 
