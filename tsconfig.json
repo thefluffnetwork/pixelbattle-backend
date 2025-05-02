@@ -6,6 +6,8 @@
   "compilerOptions": {
     "outDir": "dist",
 
-    "exactOptionalPropertyTypes": false
+    "exactOptionalPropertyTypes": false,
+
+    "noPropertyAccessFromIndexSignature": false
   }
 }

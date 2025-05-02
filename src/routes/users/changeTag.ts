@@ -1,5 +1,6 @@
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
 import type { RouteOptions } from "fastify"
+import { InvalidPlayerTagError } from "../../errors"
 import { genericSuccessResponse } from "../../types/ApiReponse"
 
 interface Body {
@@ -28,6 +29,16 @@ export const changeTag: RouteOptions<
       max: 3,
       timeWindow: "1s",
     },
+  },
+  async preHandler(request, _response, done) {
+    if (!request.server.game.tags.includes(request.body.tag)) {
+      throw new InvalidPlayerTagError(
+        request.body.tag,
+        request.server.game.tags,
+      )
+    }
+
+    done()
   },
   async handler(request, response) {
     await request.server.cache.usersManager.edit(

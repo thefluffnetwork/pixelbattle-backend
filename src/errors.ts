@@ -41,6 +41,17 @@ export class EndedError extends ApiError {
   public message = "Please wait for a new game"
 }
 
+export class InvalidPlayerTagError extends ApiError {
+  override statusCode = 400
+
+  constructor(providedTag: string, existingTags: string[]) {
+    super(
+      `Tag "${providedTag}" does not exist in the current game, must be one of [${existingTags.map(tag => `"${tag}"`).join(", ")}]`,
+    )
+    this.data = { providedTag, existingTags }
+  }
+}
+
 export class EntityNotFoundError extends ApiError {
   public statusCode = 404
   public message = "Entity is not found"

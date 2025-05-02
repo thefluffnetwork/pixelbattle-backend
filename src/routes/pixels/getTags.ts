@@ -1,5 +1,4 @@
 import type { RouteOptions } from "fastify"
-import type { Pixel } from "../../models/MongoPixel"
 
 export const getTags: RouteOptions = {
   method: "GET",
@@ -12,38 +11,43 @@ export const getTags: RouteOptions = {
     },
   },
   async handler(request, response) {
-    const pixels: Pixel[] = request.server.cache.canvasManager.pixels
+    const pixels = request.server.cache.canvasManager.pixelCache
+    const game = request.server.game
 
-    const data = pixels.reduce(
-      (info, pixel) => {
-        if (pixel.tag === null) {
-          info.unused++
+    let taggedPixelCount = 0
 
-          return info
-        }
+    const taggedPixles = new Map<string, number>()
 
-        const tagAmount = info.tags[pixel.tag]
-        info.tags[pixel.tag] = tagAmount ? tagAmount + 1 : 1
-        info.used++
+    for (const tag of game.tags) {
+      taggedPixles.set(tag, 0)
+    }
 
-        return info
-      },
-      {
-        used: 0,
-        unused: 0,
-        tags: {} as Record<string, number>,
-      },
-    )
+    for (const [, pixel] of pixels) {
+      if (pixel.tag === null) {
+        continue
+      }
+
+      taggedPixelCount++
+
+      const currentValue = taggedPixles.get(pixel.tag) ?? 0
+
+      taggedPixles.set(pixel.tag, currentValue + 1)
+    }
+
+    const tags = Array.from(taggedPixles.keys()).sort((a, b) => {
+      const aCount = taggedPixles.get(b) ?? 0
+      const bCount = taggedPixles.get(a) ?? 0
+
+      return bCount - aCount
+    })
 
     return response.send({
       pixels: {
-        all: data.unused + data.used,
-        used: data.used,
-        unused: data.unused,
+        all: game.width * game.height,
+        used: taggedPixelCount,
+        unused: game.width * game.height - taggedPixelCount,
       },
-      tags: Object.entries(data.tags)
-        .sort((x, y) => y[1] - x[1])
-        .slice(0, 10),
+      tags,
     })
   },
 }

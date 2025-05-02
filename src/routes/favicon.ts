@@ -11,7 +11,7 @@ export const favicon: RouteOptions = {
       timeWindow: "3s",
     },
   },
-  async handler(request, response) {
+  async handler(_request, response) {
     return response
       .header("Content-Type", "image/x-icon")
       .code(200)

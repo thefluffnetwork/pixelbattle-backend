@@ -5,4 +5,5 @@ export interface MongoGame {
   ended: boolean
   height: number
   width: number
+  tags: string[]
 }

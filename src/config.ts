@@ -20,6 +20,7 @@ export const config = {
     cooldown: 300,
     height: 80,
     width: 160,
+    tags: [],
   },
   expiresIn: 30000,
   syncTime: 15000,

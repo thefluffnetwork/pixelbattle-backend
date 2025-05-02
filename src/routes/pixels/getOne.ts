@@ -1,7 +1,6 @@
 import type { IncomingMessage, Server, ServerResponse } from "node:http"
 import type { RouteOptions } from "fastify"
 import { EntityNotFoundError } from "../../errors"
-import { utils } from "../../extra/Utils"
 
 export const getOne: RouteOptions<
   Server,

@@ -5,12 +5,6 @@ import type { BanInfo } from "../../models/MongoUser"
 import type { MongoUser } from "../../models/MongoUser"
 import { genericSuccessResponse } from "../../types/ApiReponse"
 
-interface Body {
-  reason?: string
-  time: number
-  moderatorID: string
-}
-
 export const ban: RouteOptions<
   Server,
   IncomingMessage,

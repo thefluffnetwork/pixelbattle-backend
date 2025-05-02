@@ -37,6 +37,10 @@ export class CanvasManager extends BaseManager<MongoPixel> {
     return Array.from(this.#pixels.values())
   }
 
+  get pixelCache() {
+    return this.#pixels
+  }
+
   #computeColors() {
     const colors = new Uint8ClampedArray(
       this.width * this.height * CanvasManager.BITS_PER_PIXEL,

@@ -20,7 +20,7 @@ export const plugins = fp(async app => {
     },
     hook: "preParsing",
     global: true,
-    errorResponseBuilder(req, context) {
+    errorResponseBuilder(_request, context) {
       return new RateLimitError(context.after)
     },
   })

@@ -7,7 +7,7 @@ export const errorHandler = fp(async app => {
     return new ValidationError([errors, data])
   })
 
-  app.setErrorHandler<ApiError>(async (error, req, res) => {
+  app.setErrorHandler<ApiError>(async (error, _req, res) => {
     const payload: ApiErrorResponse = {
       error: true,
       message: error.message ?? "Internal error",

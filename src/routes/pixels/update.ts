@@ -4,7 +4,6 @@ import { WebSocket } from "ws"
 import { config } from "../../config"
 import {
   EndedError,
-  EntityNotFoundError,
   TokenBannedError,
   UserCooldownError,
   WrongTokenError,
@@ -46,7 +45,7 @@ export const update: RouteOptions<
       timeWindow: "1s",
     },
   },
-  async preHandler(request, response, done) {
+  async preHandler(request, _response, done) {
     if (!request.user) {
       throw new WrongTokenError()
     }
