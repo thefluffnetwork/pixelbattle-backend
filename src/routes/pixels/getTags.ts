@@ -34,12 +34,9 @@ export const getTags: RouteOptions = {
       taggedPixles.set(pixel.tag, currentValue + 1)
     }
 
-    const tags = Array.from(taggedPixles.keys()).sort((a, b) => {
-      const aCount = taggedPixles.get(b) ?? 0
-      const bCount = taggedPixles.get(a) ?? 0
-
-      return bCount - aCount
-    })
+    const tags = Array.from(taggedPixles.entries()).sort(
+      ([, a], [, b]) => b - a,
+    )
 
     return response.send({
       pixels: {
