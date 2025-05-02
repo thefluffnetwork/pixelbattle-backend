@@ -4,7 +4,7 @@ import { InvalidPlayerTagError } from "../../errors"
 import { genericSuccessResponse } from "../../types/ApiReponse"
 
 interface Body {
-  tag: string
+  tag?: string
 }
 
 export const changeTag: RouteOptions<
@@ -18,9 +18,9 @@ export const changeTag: RouteOptions<
   schema: {
     body: {
       type: "object",
-      required: ["tag"],
+      required: [],
       properties: {
-        tag: { type: "string", maxLength: 8 },
+        tag: { type: "string" },
       },
     },
   },
@@ -31,7 +31,10 @@ export const changeTag: RouteOptions<
     },
   },
   async preHandler(request, _response, done) {
-    if (!request.server.game.tags.includes(request.body.tag)) {
+    if (
+      request.body.tag &&
+      !request.server.game.tags.includes(request.body.tag)
+    ) {
       throw new InvalidPlayerTagError(
         request.body.tag,
         request.server.game.tags,
