@@ -6,7 +6,7 @@ export const getUser: RouteOptions<
   Server,
   IncomingMessage,
   ServerResponse,
-  { Params: { id: string } }
+  { Params: { id: string } | { username: string } }
 > = {
   method: "GET",
   url: "/:id",
@@ -18,9 +18,17 @@ export const getUser: RouteOptions<
     },
   },
   async handler(request, response) {
-    const user = await request.server.cache.usersManager.get({
-      userID: request.params.id,
-    })
+    let user
+
+    if ("id" in request.params) {
+      user = await request.server.cache.usersManager.get({
+        userID: request.params.id,
+      })
+    } else if ("user" in request.params) {
+      user = await request.server.cache.usersManager.get({
+        username: request.params.username,
+      })
+    }
 
     if (!user) {
       throw new EntityNotFoundError("user")
