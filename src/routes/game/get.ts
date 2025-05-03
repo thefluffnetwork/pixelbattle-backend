@@ -25,12 +25,6 @@ export const get: RouteOptions<Server, IncomingMessage, ServerResponse> = {
     },
   },
   async handler(request, response) {
-    const online = new Set()
-
-    for (const client of request.server.websocketServer.clients) {
-      online.add((client as SocketConnection["socket"]).requestIp)
-    }
-
     const { game } = request.server
 
     if (!game) {
@@ -45,7 +39,7 @@ export const get: RouteOptions<Server, IncomingMessage, ServerResponse> = {
         height: game.height,
         width: game.width,
       },
-      online: online.size,
+      online: request.server.websocketServer.clients.size,
     }
 
     return response.code(200).send(info)
