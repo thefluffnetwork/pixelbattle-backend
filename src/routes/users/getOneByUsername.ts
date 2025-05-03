@@ -2,14 +2,14 @@ import type { IncomingMessage, Server, ServerResponse } from "node:http"
 import type { RouteOptions } from "fastify"
 import { EntityNotFoundError } from "../../errors"
 
-export const getUser: RouteOptions<
+export const getUserByUsername: RouteOptions<
   Server,
   IncomingMessage,
   ServerResponse,
-  { Params: { id: string } }
+  { Params: { username: string } }
 > = {
   method: "GET",
-  url: "/:id",
+  url: "/username/:username",
   schema: {},
   config: {
     rateLimit: {
@@ -19,7 +19,7 @@ export const getUser: RouteOptions<
   },
   async handler(request, response) {
     const user = await request.server.cache.usersManager.get({
-      userID: request.params.id,
+      username: request.params.username,
     })
 
     if (!user) {

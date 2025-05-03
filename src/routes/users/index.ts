@@ -6,11 +6,13 @@ import { minUserRole } from "../../plugins/minUserRole"
 import { ban } from "./ban"
 import { changeTag } from "./changeTag"
 import { getUser } from "./getOne"
+import { getUserByUsername } from "./getOneByUsername"
 import { role } from "./role"
 import { unban } from "./unban"
 
 export function users(app: FastifyInstance, _: unknown, done: () => void) {
   app.route(getUser)
+  app.route(getUserByUsername)
 
   app.register(async (app, _, done) => {
     await app.register(bindUser)
