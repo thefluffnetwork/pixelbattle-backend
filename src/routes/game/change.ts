@@ -33,7 +33,7 @@ export const change: RouteOptions<
   },
   config: {
     rateLimit: {
-      max: 3,
+      max: 30,
       timeWindow: "1s",
     },
   },

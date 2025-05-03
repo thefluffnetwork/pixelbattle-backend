@@ -6,8 +6,8 @@ export const getTags: RouteOptions = {
   schema: {},
   config: {
     rateLimit: {
-      max: 2,
-      timeWindow: "5s",
+      max: 100,
+      timeWindow: "1s",
     },
   },
   async handler(request, response) {

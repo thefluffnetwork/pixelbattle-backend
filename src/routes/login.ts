@@ -23,8 +23,8 @@ export const login: RouteOptions<
   },
   config: {
     rateLimit: {
-      max: 2,
-      timeWindow: "5s",
+      max: 100,
+      timeWindow: "1s",
     },
   },
   async handler(request, response) {

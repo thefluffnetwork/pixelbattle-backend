@@ -13,7 +13,7 @@ export const socket: RouteOptions = {
   schema: {},
   config: {
     rateLimit: {
-      max: 3,
+      max: 100,
       timeWindow: "1s",
     },
   },

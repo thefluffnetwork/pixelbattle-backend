@@ -7,8 +7,8 @@ export const getAllRaw: RouteOptions = {
   schema: {},
   config: {
     rateLimit: {
-      max: 2,
-      timeWindow: "10s",
+      max: 100,
+      timeWindow: "1s",
     },
   },
   handler: async function handler(request, response) {

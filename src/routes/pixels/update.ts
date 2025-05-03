@@ -41,7 +41,7 @@ export const update: RouteOptions<
   },
   config: {
     rateLimit: {
-      max: 8,
+      max: 80,
       timeWindow: "1s",
     },
   },

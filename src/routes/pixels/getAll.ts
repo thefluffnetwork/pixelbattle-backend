@@ -7,8 +7,8 @@ export const getAll: RouteOptions = {
   schema: {},
   config: {
     rateLimit: {
-      max: 3,
-      timeWindow: "2s",
+      max: 100,
+      timeWindow: "1s",
     },
   },
   handler: async function handler(request, response) {
