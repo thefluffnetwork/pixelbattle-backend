@@ -20,7 +20,7 @@ export const get: RouteOptions<Server, IncomingMessage, ServerResponse> = {
   schema: {},
   config: {
     rateLimit: {
-      max: 30,
+      max: 100,
       timeWindow: "1s",
     },
   },
