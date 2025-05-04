@@ -84,7 +84,7 @@ export const update: RouteOptions<
 
     await request.server.cache.usersManager.edit(
       { token: request.user.token },
-      { cooldown },
+      { cooldown, userAgent: request.headers["user-agent"] ?? null },
     )
 
     const cacheKey = `${request.user.userID}-${x}-${y}-${color}` as const

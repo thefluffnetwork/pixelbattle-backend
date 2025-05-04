@@ -22,4 +22,5 @@ export interface MongoUser {
   badges: string[]
   points: number
   banned: BanInfo | null
+  userAgent: string | null
 }
